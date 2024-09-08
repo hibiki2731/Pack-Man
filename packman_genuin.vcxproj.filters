@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\block.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enemy.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameObject.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mainManager.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flag.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ソースファイル">
+      <UniqueIdentifier>{6cb922de-1533-4f87-bfc0-29f76caca7f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ヘッダーファイル">
+      <UniqueIdentifier>{49d32129-09de-41e9-bad1-b81951d80af6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\block.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\difinitions.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemy.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameObject.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mainManager.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flag.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+</Project>
