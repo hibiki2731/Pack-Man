@@ -64,7 +64,7 @@ void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHe
 
 	//更新前のインデックス座標
 	mPrePosIndex[0] = mPosIndex[0];
-	mPrePosIndex[1] = mPrePosIndex[1];
+	mPrePosIndex[1] = mPosIndex[1];
 	
 	try {
 		//targetPosの更新

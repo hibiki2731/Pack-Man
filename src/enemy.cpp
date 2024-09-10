@@ -30,7 +30,7 @@ void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHei
 		if (targetPos_x == x && targetPos_y == y) {
 
 			//向きの変更
-			changeDirection(blockMap);
+			changeDirection(blockMap,objectMap);
 
 			//壁がなかったらtargetPosを更新する
 			if (blockMap[posIndex_y][posIndex_x + direct_x] <= 1 &&
@@ -78,44 +78,50 @@ void Enemy::draw() {
 			ofDrawLine(x + r * cos(2 * PI / sliceNum * i), y + r * sin(2 * PI / sliceNum * i), x + r * cos(2 * PI / sliceNum * (i + 1)), y + r * sin(2 * PI / sliceNum * (i + 1)));
 		}
 	}
+
+	ofDrawCircle(targetPos_x, targetPos_y, radius / 2);
+
 }
 
-void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth]) {
+void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]) {
 
 	try {
 
 		int preDirect_x = direct_x;
 		int preDirect_y = direct_y;
 
-			//壁の方向を向いていたら方向転換
-			if (currentMap[posIndex_y][posIndex_x + direct_x] > 1 &&
-				currentMap[posIndex_y + direct_y][posIndex_x] > 1) {
-				direct_x = -preDirect_y;
-				direct_y = preDirect_x;
+		ofVec2f playerPos = getPlayerPos(objectMap);
+		//壁がある方向を探す
+		CanThrough canThrough = { false, false, false };
+		//前
+		if (currentMap[posIndex_y + direct_y][posIndex_x + direct_x] <= 1) canThrough.front = true;
+		//右
+		if (currentMap[posIndex_y + preDirect_x][posIndex_x - preDirect_y] <= 1) canThrough.right = true;
+		//左
+		if (currentMap[posIndex_y - preDirect_x][posIndex_x + preDirect_y] <= 1) canThrough.left = true;
+		
+		//最短距離を探す
+		int sMin = 1000;
+		//前
+		if (canThrough.front && sMin > std::hypotf(playerPos.x - (posIndex_x + preDirect_x), playerPos.y - (posIndex_y + preDirect_y))) {
+			sMin = std::hypotf(playerPos.x - (posIndex_x + preDirect_x), playerPos.y - (posIndex_y + preDirect_y));
+			direct_x = preDirect_x;
+			direct_y = preDirect_y;
+		}
+		//右
+		if (canThrough.right && sMin > std::hypotf(playerPos.x - (posIndex_x - preDirect_y), playerPos.y - (posIndex_y + preDirect_x))) {
+			sMin = std::hypotf(playerPos.x - (posIndex_x - preDirect_y), playerPos.y - (posIndex_y + preDirect_x));
+			direct_x = -preDirect_y;
+			direct_y = preDirect_x;
+		}
+		//左
+		if (canThrough.left && sMin > std::hypotf(playerPos.x - (posIndex_x + preDirect_y), playerPos.y - (posIndex_y - preDirect_x))) {
+			//sMin = std::hypotf(playerPos.x - (posIndex_x + preDirect_y), playerPos.y - (posIndex_y - preDirect_x));
+			direct_x = preDirect_y;
+			direct_y = -preDirect_x;
+		}
 
-			}
-			else {
-				//向きの変更
-				int r = rand() % 100;
-				if (r <= 60) {
-					//そのまま
-				}
-				else if (r <= 75) {
-					//右を向く
-					direct_x = -preDirect_y;
-					direct_y = preDirect_x;
-				}
-				else if (r <= 90) {
-					//左を向く
-					direct_x = preDirect_y;
-					direct_y = -preDirect_x;
-				}
-				else if (r < 100) {
-					//後ろを向く
-					direct_x = -preDirect_x;
-					direct_y = -preDirect_y;
-				}
-			}
+
 	}
 	catch (exception e){
 		direct_x = 0;
@@ -135,4 +141,17 @@ float Enemy::getRad() {
 }
 bool Enemy::hasCollider() {
 	return true;
+}
+
+ofVec2f Enemy::getPlayerPos(char(&objectMap)[mapHeight][mapWidth]) {
+	ofVec2f vec2 = { 0,0, };
+	for (int y = 0; y < mapHeight; y++) {
+		for (int x = 0; x < mapWidth; x++) {
+			if (objectMap[y][x] == 1) {
+				vec2 = { static_cast<float>(x),static_cast<float>(y) };
+				return vec2;
+			}
+		}
+	}
+	return vec2;
 }

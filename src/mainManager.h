@@ -17,6 +17,7 @@ public:
 	char mObjectMap[mapHeight][mapWidth];
 	GameState gameState;
 	int mKey = 0;
+	Player* player;
 
 private:
 	void setMap(char blockMap[mapHeight][mapWidth], char objectMap[mapHeight][mapWidth]);
@@ -27,7 +28,6 @@ private:
 	void gameClear();
 	void showStatus();
 
-	Player* player;
 	std::vector<GameObject*> mGameObjects;
 	int flagNumber;
 	ofTrueTypeFont statusBar;
