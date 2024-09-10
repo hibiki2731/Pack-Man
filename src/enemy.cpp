@@ -18,6 +18,10 @@ Enemy::Enemy(int posIndex) {
 	targetPos_x = x;
 	targetPos_y = y;
 
+	sliceNum = 4;
+	thickness = 8;
+	tag = ENEMY;
+
 }
 
 void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum){
@@ -57,13 +61,23 @@ void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHei
 	posIndex_x = static_cast<int>(x / tileSize);
 	posIndex_y = static_cast<int>(y / tileSize);
 
+	sliceNum = 4;
+	thickness = 8;
+	tag = ENEMY;
 }
 
 void Enemy::draw() {
 
-	//•`‰æ
-	ofSetColor(ofColor(0, 200, 0, 255));
-	ofDrawCircle(x, y, radius);
+	//“G‚Ì•`‰æ
+	for (int i = 0; i < sliceNum; i++) {
+		float3 enemyCol = palette(x + radius * cos(2 * PI / sliceNum * (i + 1 / 2)), y + radius * sin(2 * PI / sliceNum * (i + 1 / 2)));
+		ofSetColor(ofColor(enemyCol.x, enemyCol.y, enemyCol.z, 255));
+
+		for (int t = 0; t < thickness; t++) {
+			float r = radius - 0.4 * t;
+			ofDrawLine(x + r * cos(2 * PI / sliceNum * i), y + r * sin(2 * PI / sliceNum * i), x + r * cos(2 * PI / sliceNum * (i + 1)), y + r * sin(2 * PI / sliceNum * (i + 1)));
+		}
+	}
 }
 
 void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth]) {

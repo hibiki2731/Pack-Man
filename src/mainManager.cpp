@@ -47,7 +47,7 @@ MainManager::MainManager() {
 
 	flagNumber = 0;
 	loadMap();	//マップの読み込み
-	std::cout << flagNumber;
+	//std::cout << flagNumber;
 
 	
 	// ステータスバーの設定。
