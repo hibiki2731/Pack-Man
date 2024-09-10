@@ -84,6 +84,7 @@ void ofApp::keyPressed(int key){
 		else if (mainManager->gameState == POSE) {
 			mainManager->gameState = PLAY;
 		}
+		break;
 	}
 }
 

@@ -5,14 +5,11 @@ class Enemy :public GameObject
 {
 public:
 
-	enum Direct {
-		IDLE = 0,
-		RIGHT = 1,
-		LEFT = -1,
-		UP = -1,
-		DOWN = 1
+	struct CanThrough {
+		bool front;
+		bool right;
+		bool left;
 	};
-
 
 	Enemy(int posIndex);
 
@@ -46,6 +43,7 @@ private:
 	int thickness;
 	
 
-	void changeDirection(char(&currentMap)[mapHeight][mapWidth]);
+	void changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]);
+	ofVec2f getPlayerPos(char(&objectMap)[mapHeight][mapWidth]);
 };
 
