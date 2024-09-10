@@ -27,6 +27,10 @@ Player::Player(int posIndex[2])
 	invincibleLength = 100;
 	timeCounter = 0;
 
+	sliceNum = 15;
+	thickness = 5;
+	tag = PLAYER;
+
 }
 Player::Player(int posIndex) : speed(2) {
 
@@ -48,6 +52,10 @@ Player::Player(int posIndex) : speed(2) {
 	nextDirect[0] = IDLE; nextDirect[1] = IDLE;	//次の向き
 
 	radius = tileSize / 2 - 1;	//プレイヤーの半径
+
+	sliceNum = 15;
+	thickness = 5;
+	tag = PLAYER;
 }
 
 void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum) {
@@ -109,12 +117,19 @@ void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHe
 
 void Player::draw() {
 	//プレイヤーの描画
-	if(timeCounter == 0)
-		ofSetColor(ofColor(255, 0, 0, 255));
-	else {
-		ofSetColor(ofColor(255, 0, 0, 255*(timeCounter%6)/5));
+	for (int i = 0; i < sliceNum; i++) {
+		float3 playerCol = palette(x + radius * cos(2 * PI / sliceNum * (i + 1 / 2)), y + radius * sin(2 * PI / sliceNum * (i + 1 / 2)));
+		if (timeCounter == 0)
+			ofSetColor(ofColor(playerCol.x, playerCol.y, playerCol.z, 255));
+		else {
+			ofSetColor(ofColor(playerCol.x, playerCol.y, playerCol.z, 255 * (timeCounter % 6) / 5));
+		}
+		for (int t = 0; t < thickness; t++) {
+			float r = radius - 0.4 * t;
+
+			ofDrawLine(x + r * cos(2* PI / sliceNum * i), y + r* sin(2 * PI / sliceNum * i), x + r * cos(2 * PI / sliceNum * (i+1)), y + r*sin(2 * PI / sliceNum * (i+1)));
+		}
 	}
-	ofDrawCircle(x, y, radius);
 
 }
 
@@ -195,4 +210,3 @@ void Player::updateMap(char(&map)[mapHeight][mapWidth]) {
 	map[mPosIndex[1]][mPosIndex[0]] = 1;		//移動後の座標には1
 
 }
-

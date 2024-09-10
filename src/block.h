@@ -21,6 +21,8 @@ private:
 	float x;
 	float y;
 
+	int sliceNum;
+
 };
 
 class StoneBlock :public Block {

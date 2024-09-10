@@ -40,6 +40,10 @@ private:
 
 	float targetPos_x;
 	float targetPos_y;
+
+	//•`‰æ—p
+	int sliceNum;
+	int thickness;
 	
 
 	void changeDirection(char(&currentMap)[mapHeight][mapWidth]);

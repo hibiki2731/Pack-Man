@@ -16,6 +16,10 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	//”wŒiF‚ÌÝ’è
+	ofSetColor(0,0, 0); // F‚ðŽw’è
+	ofDrawRectangle(0, 0, windowWidth, windowHeight);
+
 	mainManager->draw();
 
 	if (mainManager->gameState == POSE) {

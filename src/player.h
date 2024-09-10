@@ -33,6 +33,7 @@ public:
 
 	void collisionAct(GameObject* collider);	//衝突時の処理
 
+
 private:
 
 	float radius;		//プレイヤーの半径
@@ -59,6 +60,13 @@ private:
 	int timeCounter;
 	int invincibleLength;
 	int score;
+
+	//描画用
+	int sliceNum;
+	int thickness;
+
+	//float3 palette(float t);
+
 
 };
 

@@ -17,5 +17,9 @@ private:
     float x;
     float y;
     float radius;
+
+    //F‚Ìˆ—
+    int sliceNumX;
+    int sliceNumY;
 };
 

@@ -12,7 +12,11 @@ public:
 	virtual float getRad() = 0;
 	virtual bool hasCollider() = 0;
 
+	Tag tag = NONE;
 	bool isSurvive = true;
+
+	//グラデーションの描画
+	float3 palette(float x, float y);
 
 };
 
