@@ -36,7 +36,7 @@ MainManager::MainManager() {
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0},
+		{0,2,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 
 	};
@@ -160,21 +160,22 @@ void MainManager::loadMap() {
 				mGameObjects.push_back(player);
 				break;
 			case 2:
-				mGameObjects.push_back(new Enemy(y * mapWidth + x));
+				mGameObjects.push_back(new Enemy(SQUARE ,y * mapWidth + x));
+				break;
+			case 3:
+				mGameObjects.push_back(new Enemy(TRIANGELE, y * mapWidth + x));
 				break;
 			}
 		}
 	}
-}
 
-void MainManager::loadEnemy(std::vector<int> (&enemies)) {
-
-	for (const auto& enemy : enemies) {
-		mGameObjects.push_back(new Enemy(enemy));
-
+	//enemy‚ÉƒvƒŒƒCƒ„[î•ñ‚ð’Ç‰Á
+	for (GameObject *gameObject : mGameObjects) {
+		if (gameObject->tag == ENEMY) {
+			dynamic_cast<Enemy*>(gameObject)->setPlayerInf(player);
+		}
 	}
 }
-
 void MainManager::setKey(int key) {
 	mKey = key;
 }

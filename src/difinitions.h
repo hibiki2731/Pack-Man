@@ -26,6 +26,11 @@ enum Tag {
 	FLAG = 3
 };
 
+enum EnemyType {
+	SQUARE = 1,
+	TRIANGELE = 2
+};
+
 //“ñŽŸŒ³ƒxƒNƒgƒ‹
 struct float2 {
 	float x;
