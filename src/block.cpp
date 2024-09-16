@@ -15,7 +15,7 @@ Block::Block(int posIndex) {
 	tag = BLOCK;
 }
 
-void Block::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum) {
+void Block::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]) {
 
 }
 
@@ -45,6 +45,9 @@ void Block::draw() {
 
 }
 
+void Block::input(int key) {
+
+}
 
 
 float Block::getPos_x() {

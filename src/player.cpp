@@ -58,10 +58,7 @@ Player::Player(int posIndex) : speed(2) {
 	tag = PLAYER;
 }
 
-void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum) {
-	//入力処理
-	input(keyNum);
-
+void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]) {
 	//更新前のインデックス座標
 	mPrePosIndex[0] = mPosIndex[0];
 	mPrePosIndex[1] = mPosIndex[1];
@@ -107,8 +104,7 @@ void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHe
 
 	//マップの更新
 	updateMap(objectMap);
-	if (keyNum == 'm') mapView(objectMap);
-	
+
 	//無敵時間のカウント
 	if (timeCounter != 0) {
 		timeCounter--;
@@ -133,10 +129,10 @@ void Player::draw() {
 
 }
 
-void Player::input(int keyNum) {
+void Player::input(int key) {
 
 	//キー入力
-	switch (keyNum) {
+	switch (key) {
 	case OF_KEY_LEFT:
 		nextDirect[0] = LEFT;
 		nextDirect[1] = IDLE;

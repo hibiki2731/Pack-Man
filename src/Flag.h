@@ -6,8 +6,9 @@ class Flag :
 public:
     Flag(int posIndex);
 
-    void update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum) override;
+    void update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]) override;
     void draw() override;
+    void input(int key) override;
     float getPos_x();
     float getPos_y();
     float getRad();

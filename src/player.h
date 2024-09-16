@@ -19,9 +19,9 @@ public:
 
 
 	//更新関数
-	void update(char(&blockMap)[mapHeight][mapWidth],char(&objectMap)[mapHeight][mapWidth], int keyNum) override;	//ゲーム更新
+	void update(char(&blockMap)[mapHeight][mapWidth],char(&objectMap)[mapHeight][mapWidth]) override;	//ゲーム更新
 	void draw() override;	//出力更新
-	void input(int keyNum);   //入力処理
+	void input(int key);   //入力処理
 
 	float getPos_x() override;
 	float getPos_y() override;
@@ -56,8 +56,8 @@ private:
 	Direct nextDirect[2];	//次の向き
 	Direct currentDirect[2];	//現在の向き
 
-	void mapView(char (&map)[mapHeight][mapWidth]);
-	void updateMap(char(&map)[mapHeight][mapWidth]);
+	void mapView(char (&map)[mapHeight][mapWidth]);	//デバッグ用
+	void updateMap(char(&map)[mapHeight][mapWidth]);	//プレイヤーのマップ位置の更新
 
 	//ステータス
 	int hp;
@@ -68,9 +68,6 @@ private:
 	//描画用
 	int sliceNum;
 	int thickness;
-
-	//float3 palette(float t);
-
 
 };
 
