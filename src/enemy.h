@@ -13,8 +13,9 @@ public:
 
 	Enemy(EnemyType type, int posIndex);
 
-	void update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum) override;	//ゲーム更新
+	void update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]) override;	//ゲーム更新
 	void draw() override;
+	void input(int key) override;
 
 	float getPos_x() override;
 	float getPos_y() override;

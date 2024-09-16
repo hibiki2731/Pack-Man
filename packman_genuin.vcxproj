@@ -116,6 +116,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\titleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Flag.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\difinitions.h" />
+    <ClInclude Include="src\titleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

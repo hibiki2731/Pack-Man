@@ -12,7 +12,7 @@ Flag::Flag(int posIndex) {
 	tag = FLAG;
 }
 
-void Flag::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum) {
+void Flag::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]) {
 
 }
 
@@ -32,6 +32,10 @@ void Flag::draw() {
 		}
 	}
 	*/
+}
+
+void Flag::input(int key) {
+
 }
 
 float Flag::getPos_x() {

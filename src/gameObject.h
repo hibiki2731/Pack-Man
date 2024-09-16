@@ -4,8 +4,9 @@
 class GameObject
 {
 public:
-	virtual void update(char(&blockMap)[mapHeight][mapWidth],char(&objectMap)[mapHeight][mapWidth], int keyNum) = 0;
+	virtual void update(char(&blockMap)[mapHeight][mapWidth],char(&objectMap)[mapHeight][mapWidth]) = 0;
 	virtual void draw() = 0;
+	virtual void input(int key) = 0;
 
 	virtual float getPos_x() = 0;
 	virtual float getPos_y() = 0;

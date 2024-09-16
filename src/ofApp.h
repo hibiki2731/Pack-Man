@@ -22,6 +22,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		MainManager* mainManager;
+		std::shared_ptr<MainManager> mainManager;
+		std::unique_ptr<TitleManager> titleManager;
+
 		
 };

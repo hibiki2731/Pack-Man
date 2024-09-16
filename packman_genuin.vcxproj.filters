@@ -34,6 +34,9 @@
     <ClCompile Include="src\Flag.cpp">
       <Filter>src\ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\titleManager.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -75,6 +78,9 @@
       <Filter>src\ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Flag.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\titleManager.h">
       <Filter>src\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>

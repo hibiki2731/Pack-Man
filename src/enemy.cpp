@@ -60,7 +60,7 @@ Enemy::Enemy(EnemyType type, int posIndex) {
 
 }
 
-void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum){
+void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]){
 	try {
 		//targetPosの更新
 		if (nextPos_x == x && nextPos_y == y) {
@@ -112,7 +112,12 @@ void Enemy::draw() {
 		}
 	}
 
-	ofDrawCircle(targetPos * tileSize + tileSize * 0.5, radius / 2);
+	//デバッグ用
+	//ofDrawCircle(targetPos * tileSize + tileSize * 0.5, radius / 2);
+
+}
+
+void Enemy::input(int key) {
 
 }
 
