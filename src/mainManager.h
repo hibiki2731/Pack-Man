@@ -7,11 +7,13 @@ class MainManager
 public:
 	MainManager();
 
+	void init();
 	void update();
 	void draw();
+	void exit();
+
 	void setKey(int key);
 	int getKey();
-
 
 	char mBlockMap[mapHeight][mapWidth];
 	char mObjectMap[mapHeight][mapWidth];
@@ -22,7 +24,7 @@ public:
 private:
 	void setMap(char blockMap[mapHeight][mapWidth], char objectMap[mapHeight][mapWidth]);
 	void loadMap();
-	void loadEnemy(std::vector<int>(&enemies));
+	//void loadEnemy(std::vector<int>(&enemies));
 	bool collision(GameObject* g1, GameObject* g2);
 	void gameOver();
 	void gameClear();

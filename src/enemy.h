@@ -11,7 +11,7 @@ public:
 		bool left;
 	};
 
-	Enemy(int posIndex);
+	Enemy(EnemyType type, int posIndex);
 
 	void update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum) override;	//ゲーム更新
 	void draw() override;
@@ -21,27 +21,43 @@ public:
 	float getRad() override;
 	bool hasCollider() override;
 
+	//プレイヤー情報を取得
+	void setPlayerInf(Player* player);
+
 
 private:
+	//座標
 	float x;
 	float y;
 	int posIndex_x;
 	int posIndex_y;
-
-	ofColor mColor;
-	float radius;
-	float speed;
-
+	int firstPosIndex_x;
+	int firstPosIndex_y;
+	//向き
 	int direct_x;
 	int direct_y;
 
-	float targetPos_x;
-	float targetPos_y;
+	float nextPos_x;
+	float nextPos_y;
+	ofVec2f targetPos;
+
+	float speed;
+	float rotateSpeed;
 
 	//描画用
+	float radius;
 	int sliceNum;
 	int thickness;
+	float3 colorA;
+	float3 colorB;
+	float3 colorC;
+	float3 colorD;
+
+	//敵識別変数
+	EnemyType mType;
 	
+	//プレイヤー情報
+	Player *mPlayer;
 
 	void changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]);
 	ofVec2f getPlayerPos(char(&objectMap)[mapHeight][mapWidth]);

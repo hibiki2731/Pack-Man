@@ -1,24 +1,26 @@
 #include "stdafx.h"
 
 MainManager::MainManager() {
+}
 
+void MainManager::init() {
 	char blockMap[mapHeight][mapWidth] = {
-		{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
-		{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
-		{2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2},
-		{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-		{2,1,2,1,2,1,2,1,1,1,2,2,1,1,1,2},
-		{2,1,2,1,2,1,2,1,2,1,2,2,1,2,1,2},
-		{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-		{2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2},
-		{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
-		{2,1,2,2,2,2,2,1,2,2,2,1,2,2,1,2},
-		{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-		{2,1,1,1,2,1,1,1,2,1,2,2,1,2,1,2},
-		{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-		{2,1,2,2,2,2,2,1,2,2,1,2,2,2,1,2},
-		{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
-		{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}
+	{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+	{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
+	{2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2},
+	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
+	{2,1,2,1,2,1,2,1,1,1,2,2,1,1,1,2},
+	{2,1,2,1,2,1,2,1,2,1,2,2,1,2,1,2},
+	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
+	{2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2},
+	{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
+	{2,1,2,2,2,2,2,1,2,2,2,1,2,2,1,2},
+	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
+	{2,1,1,1,2,1,1,1,2,1,2,2,1,2,1,2},
+	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
+	{2,1,2,2,2,2,2,1,2,2,1,2,2,2,1,2},
+	{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
+	{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}
 	};
 
 	char objectMap[mapHeight][mapWidth] = {
@@ -36,20 +38,20 @@ MainManager::MainManager() {
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0},
+		{0,4,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 
 	};
 
 	gameState = PLAY;	//gameStateの設定
 
-	setMap(blockMap,objectMap);	//マップ情報を設定
+	setMap(blockMap, objectMap);	//マップ情報を設定
 
 	flagNumber = 0;
 	loadMap();	//マップの読み込み
 	//std::cout << flagNumber;
 
-	
+
 	// ステータスバーの設定。
 	fontSize = 30;	//フォントサイズ
 	ofTrueTypeFont::setGlobalDpi(72);
@@ -57,63 +59,66 @@ MainManager::MainManager() {
 	statusBar.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
 	statusBar.setLineHeight(24);       // 行間を指定する
 	statusBar.setLetterSpacing(1.0);   // 文字間を指定する
-
 }
 
 void MainManager::update() {
 	//更新
 	std::vector<int> deadObjIndex;	//消去するオブジェクトのindexを保存する配列
 	int index = 0;
-	for (GameObject* gameObject : mGameObjects) {
-		gameObject->update(mBlockMap, mObjectMap, getKey());
+	if (gameState == PLAY) {
+		for (GameObject* gameObject : mGameObjects) {
+			gameObject->update(mBlockMap, mObjectMap, getKey());
 
-		//衝突処理
-		//gameObjectがplayerでない、colliderがtrue、衝突判定がtrue
-		if (
-			gameObject != player &&
-			gameObject->hasCollider() &&
-			collision(player,gameObject)) {
+			//衝突処理
+			//gameObjectがplayerでない、colliderがtrue、衝突判定がtrue
+			if (
+				gameObject != player &&
+				gameObject->hasCollider() &&
+				collision(player, gameObject)) {
 
-			//衝突時に実行すること
-			player->collisionAct(gameObject);
+				//衝突時に実行すること
+				player->collisionAct(gameObject);
+
+			}
+
+			//オブジェクトが消滅した場合
+			if (gameObject->isSurvive == false) {
+				deadObjIndex.emplace_back(index);	//要素のindexを保存
+			}
+			index++;
 
 		}
+		mKey = 0;
 
-		//オブジェクトが消滅した場合
-		if (gameObject->isSurvive == false) {
-			deadObjIndex.emplace_back(index);	//要素のindexを保存
+		//オブジェクトの消去 
+		for (auto index : deadObjIndex) {
+			delete mGameObjects[index];	//オブジェクトのメモリ開放
+			mGameObjects.erase(mGameObjects.begin() + index);	//vectorの要素を開放
 		}
-		index++;
-	}
-	mKey = 0;
+		mGameObjects.shrink_to_fit();	//vectorの長さを最適化
 
-	//オブジェクトの消去 
-	for (auto index : deadObjIndex) {
-		delete mGameObjects[index];	//オブジェクトのメモリ開放
-		mGameObjects.erase(mGameObjects.begin() + index);	//vectorの要素を開放
-	}
-	mGameObjects.shrink_to_fit();	//vectorの長さを最適化
+		//オブジェクトの更新後
+		//playerのhpが0になったらゲームオーバー
+		if (player->getHp() == 0) {
+			gameOver();
+		}
 
-	//オブジェクトの更新後
-	//playerのhpが0になったらゲームオーバー
-	if (player->getHp() == 0) {
-		gameOver();
-	}
+		if (player->getScore() == flagNumber) {
+			gameClear();
+		}
 
-	if (player->getScore() == flagNumber) {
-		gameClear();
 	}
 
 }
 
 void MainManager::draw() {
-
 	for (GameObject* gameObject : mGameObjects) {
 		gameObject->draw();
 	}
 
 	//ステータスの表示
 	showStatus();
+	
 }
 
 void MainManager::setMap(char blockMap[mapHeight][mapWidth], char objectMap[mapHeight][mapWidth]){
@@ -160,20 +165,36 @@ void MainManager::loadMap() {
 				mGameObjects.push_back(player);
 				break;
 			case 2:
-				mGameObjects.push_back(new Enemy(y * mapWidth + x));
+				mGameObjects.push_back(new Enemy(SQUARE ,y * mapWidth + x));
+				break;
+			case 3:
+				mGameObjects.push_back(new Enemy(TRIANGELE, y * mapWidth + x));
+				break;
+			case 4:
+				mGameObjects.push_back(new Enemy(RED, y * mapWidth + x));
+				break;
+			default:
 				break;
 			}
 		}
 	}
-}
 
-void MainManager::loadEnemy(std::vector<int> (&enemies)) {
-
-	for (const auto& enemy : enemies) {
-		mGameObjects.push_back(new Enemy(enemy));
-
+	//enemyにプレイヤー情報を追加
+	for (GameObject *gameObject : mGameObjects) {
+		if (gameObject->tag == ENEMY) {
+			dynamic_cast<Enemy*>(gameObject)->setPlayerInf(player);
+		}
 	}
 }
+
+void MainManager::exit() {
+	for (GameObject *gameObject : mGameObjects) {
+		delete gameObject;	//オブジェクトのメモリ開放
+	}
+	mGameObjects.erase(mGameObjects.begin(), mGameObjects.end());
+
+}
+
 
 void MainManager::setKey(int key) {
 	mKey = key;

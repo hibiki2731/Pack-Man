@@ -8,7 +8,7 @@
 #include "gameObject.h"
 #include "block.h"
 #include "Flag.h"
-#include "enemy.h"
 #include "player.h"
+#include "enemy.h"
 #include "mainManager.h"
 #include "ofApp.h"

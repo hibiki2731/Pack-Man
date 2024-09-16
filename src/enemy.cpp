@@ -1,33 +1,69 @@
 #include "stdafx.h"
 
-Enemy::Enemy(int posIndex) {
+Enemy::Enemy(EnemyType type, int posIndex) {
 
-	x = (float)((posIndex % mapWidth) * tileSize + tileSize / 2);
-	y = (float)((posIndex / mapWidth) * tileSize + tileSize / 2);
+	x = static_cast<float>(((posIndex % mapWidth) * tileSize + tileSize / 2));
+	y = static_cast<float>(((posIndex / mapWidth) * tileSize + tileSize / 2));
 
 	posIndex_x = posIndex % mapWidth;
 	posIndex_y = posIndex / mapWidth;
+	firstPosIndex_x = posIndex_x;
+	firstPosIndex_y = posIndex_y;
 
-	mColor = { 100,100,100,255 };//エネミーの色
+
 	radius = tileSize / 2 - 1;	//エネミーの半径
-	speed = tileSize/20;
 
 	direct_x = 1;
 	direct_y = 0;
 
-	targetPos_x = x;
-	targetPos_y = y;
+	nextPos_x = x;
+	nextPos_y = y;
+	targetPos = { x ,y };
 
-	sliceNum = 4;
-	thickness = 8;
 	tag = ENEMY;
+	mType = type;
+
+	colorA = { 0.731, 3, 0.53 };
+	colorB = { 0.247, 0.752, 0.453 };
+	colorC = { 0.785, 0.265, 0.241 };
+	colorD = { 0.138, 1.918, 0.837 };
+
+	//敵のタイプ別パラメータ
+	switch (type)
+	{
+	case SQUARE:
+		sliceNum = 4;
+		thickness = 8;
+		rotateSpeed = 1;
+		speed = tileSize / 20;
+		break;
+	case TRIANGELE:
+		sliceNum = 3;
+		thickness = 8;
+		rotateSpeed = 1;
+		speed = tileSize / 20;
+		break;
+	case RED:
+		sliceNum = 6;
+		thickness = 8;
+		rotateSpeed = 1;
+		speed = tileSize / 20;
+		break;
+
+	default:
+		sliceNum = 4;
+		thickness = 8;
+		rotateSpeed = 1;
+		speed = tileSize / 20;
+		break;
+	}
 
 }
 
 void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth], int keyNum){
 	try {
 		//targetPosの更新
-		if (targetPos_x == x && targetPos_y == y) {
+		if (nextPos_x == x && nextPos_y == y) {
 
 			//向きの変更
 			changeDirection(blockMap,objectMap);
@@ -35,8 +71,8 @@ void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHei
 			//壁がなかったらtargetPosを更新する
 			if (blockMap[posIndex_y][posIndex_x + direct_x] <= 1 &&
 				blockMap[posIndex_y + direct_y][posIndex_x] <= 1) {
-				targetPos_x = x + direct_x * tileSize;
-				targetPos_y = y + direct_y * tileSize;
+				nextPos_x = x + direct_x * tileSize;
+				nextPos_y = y + direct_y * tileSize;
 			}
 		}
 	}
@@ -50,36 +86,33 @@ void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHei
 	y += static_cast<float>(direct_y * speed);
 
 	//targetPosを過ぎたら微調整
-	if ((targetPos_x - x) * direct_x < 0) {
-		x += targetPos_x - x;
+	if ((nextPos_x - x) * direct_x < 0) {
+		x += nextPos_x - x;
 	}
-	if ((targetPos_y - y) * direct_y < 0) {
-		y += targetPos_y - y;
+	if ((nextPos_y - y) * direct_y < 0) {
+		y += nextPos_y - y;
 	}
 
 	//インデックス座標の更新
 	posIndex_x = static_cast<int>(x / tileSize);
 	posIndex_y = static_cast<int>(y / tileSize);
 
-	sliceNum = 4;
-	thickness = 8;
-	tag = ENEMY;
 }
 
 void Enemy::draw() {
 
 	//敵の描画
 	for (int i = 0; i < sliceNum; i++) {
-		float3 enemyCol = palette(x + radius * cos(2 * PI / sliceNum * (i + 1 / 2)), y + radius * sin(2 * PI / sliceNum * (i + 1 / 2)));
+		float3 enemyCol = palette(x + radius * cos(2 * PI / sliceNum * (i + 1 / 2)), y + radius * sin(2 * PI / sliceNum * (i + 1 / 2)), colorA, colorB, colorC, colorD);
 		ofSetColor(ofColor(enemyCol.x, enemyCol.y, enemyCol.z, 255));
 
 		for (int t = 0; t < thickness; t++) {
 			float r = radius - 0.4 * t;
-			ofDrawLine(x + r * cos(2 * PI / sliceNum * i), y + r * sin(2 * PI / sliceNum * i), x + r * cos(2 * PI / sliceNum * (i + 1)), y + r * sin(2 * PI / sliceNum * (i + 1)));
+			ofDrawLine(x + r * cos(2 * PI / sliceNum * i + ofGetElapsedTimef() ), y + r * sin(2 * PI / sliceNum * i + ofGetElapsedTimef() ), x + r * cos(2 * PI / sliceNum * (i + 1) + ofGetElapsedTimef() ), y + r * sin(2 * PI / sliceNum * (i + 1) + ofGetElapsedTimef() ));
 		}
 	}
 
-	ofDrawCircle(targetPos_x, targetPos_y, radius / 2);
+	ofDrawCircle(targetPos * tileSize + tileSize * 0.5, radius / 2);
 
 }
 
@@ -90,7 +123,43 @@ void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&object
 		int preDirect_x = direct_x;
 		int preDirect_y = direct_y;
 
-		ofVec2f playerPos = getPlayerPos(objectMap);
+		ofVec2f playerPos = {static_cast<float>(mPlayer->getPosIndex_x()),static_cast<float>(mPlayer->getPosIndex_y())};
+		switch (mType)
+		{
+		case SQUARE:
+			//プレイヤーを追跡
+			targetPos = playerPos;
+			break;
+		case TRIANGELE:
+			//プレイヤー追跡の2マス先を追跡
+			targetPos.x = playerPos.x + static_cast<float>(mPlayer->getcurrentDirect_x()) * 2;
+			targetPos.y = playerPos.y + static_cast<float>(mPlayer->getcurrentDirect_y()) * 2;
+			break;
+		case RED:
+			if (std::hypotf(firstPosIndex_x - playerPos.x, firstPosIndex_y - playerPos.y) <= 5) {
+				targetPos = playerPos;
+				speed = tileSize / 10;
+				rotateSpeed = 3;
+				colorA = { 0.5, 0.5, 0.5 };
+				colorB = { 0.49, -0.5, -0.5 };
+				colorC = {3, -1.5, -1.5};
+				colorD = {0, 0, 0};
+			}
+			else {
+				targetPos = {static_cast<float>(firstPosIndex_x),static_cast<float>(firstPosIndex_y) };
+				speed = tileSize / 20;
+				rotateSpeed = 1;
+				colorA = { 0.731, 3, 0.53 };
+				colorB = { 0.247, 0.752, 0.453 };
+				colorC = { 0.785, 0.265, 0.241 };
+				colorD = { 0.138, 1.918, 0.837 };
+			}
+			break;
+
+		default:
+			break;
+		}
+
 		//壁がある方向を探す
 		CanThrough canThrough = { false, false, false };
 		//前
@@ -102,23 +171,23 @@ void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&object
 		
 		//最短距離を探す
 		int sMin = 1000;
-		//前
-		if (canThrough.front && sMin > std::hypotf(playerPos.x - (posIndex_x + preDirect_x), playerPos.y - (posIndex_y + preDirect_y))) {
-			sMin = std::hypotf(playerPos.x - (posIndex_x + preDirect_x), playerPos.y - (posIndex_y + preDirect_y));
-			direct_x = preDirect_x;
-			direct_y = preDirect_y;
-		}
 		//右
-		if (canThrough.right && sMin > std::hypotf(playerPos.x - (posIndex_x - preDirect_y), playerPos.y - (posIndex_y + preDirect_x))) {
-			sMin = std::hypotf(playerPos.x - (posIndex_x - preDirect_y), playerPos.y - (posIndex_y + preDirect_x));
+		if (canThrough.right && sMin > std::hypotf(targetPos.x - (posIndex_x - preDirect_y), targetPos.y - (posIndex_y + preDirect_x))) {
+			sMin = std::hypotf(targetPos.x - (posIndex_x - preDirect_y), targetPos.y - (posIndex_y + preDirect_x));
 			direct_x = -preDirect_y;
 			direct_y = preDirect_x;
 		}
 		//左
-		if (canThrough.left && sMin > std::hypotf(playerPos.x - (posIndex_x + preDirect_y), playerPos.y - (posIndex_y - preDirect_x))) {
-			//sMin = std::hypotf(playerPos.x - (posIndex_x + preDirect_y), playerPos.y - (posIndex_y - preDirect_x));
+		if (canThrough.left && sMin > std::hypotf(targetPos.x - (posIndex_x + preDirect_y), targetPos.y - (posIndex_y - preDirect_x))) {
+			sMin = std::hypotf(targetPos.x - (posIndex_x + preDirect_y), targetPos.y - (posIndex_y - preDirect_x));
 			direct_x = preDirect_y;
 			direct_y = -preDirect_x;
+		}
+		//前
+		if (canThrough.front && sMin > std::hypotf(targetPos.x - (posIndex_x + preDirect_x), targetPos.y - (posIndex_y + preDirect_y))) {
+			sMin = std::hypotf(targetPos.x - (posIndex_x + preDirect_x), targetPos.y - (posIndex_y + preDirect_y));
+			direct_x = preDirect_x;
+			direct_y = preDirect_y;
 		}
 
 
@@ -154,4 +223,8 @@ ofVec2f Enemy::getPlayerPos(char(&objectMap)[mapHeight][mapWidth]) {
 		}
 	}
 	return vec2;
+}
+
+void Enemy::setPlayerInf(Player *player) {
+	mPlayer = player;
 }

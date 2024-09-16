@@ -17,6 +17,7 @@ public:
 
 	//グラデーションの描画
 	float3 palette(float x, float y);
+	float3 palette(float x, float y, float3 a, float3 b, float3 c, float3 d);
 
 };
 

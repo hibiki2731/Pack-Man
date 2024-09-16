@@ -170,6 +170,22 @@ bool Player::hasCollider() {
 	return true;
 }
 
+int Player::getPosIndex_x() {
+	return mPosIndex[0];
+}
+
+int Player::getPosIndex_y() {
+	return mPosIndex[1];
+}
+
+int Player::getcurrentDirect_x() {
+	return static_cast<int>(currentDirect[0]);
+}
+
+int Player::getcurrentDirect_y() {
+	return static_cast<int>(currentDirect[1]);
+}
+
 int Player::getHp() {
 	return hp;
 }
@@ -179,12 +195,12 @@ int Player::getScore() {
 
 void Player::collisionAct(GameObject* collider) {
 	//“G‚ÆÚG‚µ‚½ê‡
-	if (dynamic_cast<Enemy*>(collider) && timeCounter == 0) {
+	if (collider->tag == ENEMY && timeCounter == 0) {
 		hp--;
 		timeCounter = invincibleLength;
 	}
 	//ƒtƒ‰ƒO‚ÆÚG‚µ‚½ê‡
-	if (dynamic_cast<Flag*>(collider)) {
+	if (collider->tag == FLAG) {
 		score++;
 
 		collider->isSurvive = false;

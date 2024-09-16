@@ -27,6 +27,10 @@ public:
 	float getPos_y() override;
 	float getRad() override;
 	bool hasCollider() override;
+	int getPosIndex_x();
+	int getPosIndex_y();
+	int getcurrentDirect_x();
+	int getcurrentDirect_y();
 
 	int getHp();
 	int getScore();
