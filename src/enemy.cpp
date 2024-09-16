@@ -7,9 +7,11 @@ Enemy::Enemy(EnemyType type, int posIndex) {
 
 	posIndex_x = posIndex % mapWidth;
 	posIndex_y = posIndex / mapWidth;
+	firstPosIndex_x = posIndex_x;
+	firstPosIndex_y = posIndex_y;
+
 
 	radius = tileSize / 2 - 1;	//エネミーの半径
-	speed = tileSize/20;
 
 	direct_x = 1;
 	direct_y = 0;
@@ -21,22 +23,38 @@ Enemy::Enemy(EnemyType type, int posIndex) {
 	tag = ENEMY;
 	mType = type;
 
+	colorA = { 0.731, 3, 0.53 };
+	colorB = { 0.247, 0.752, 0.453 };
+	colorC = { 0.785, 0.265, 0.241 };
+	colorD = { 0.138, 1.918, 0.837 };
+
+	//敵のタイプ別パラメータ
 	switch (type)
 	{
 	case SQUARE:
 		sliceNum = 4;
 		thickness = 8;
 		rotateSpeed = 1;
+		speed = tileSize / 20;
 		break;
 	case TRIANGELE:
 		sliceNum = 3;
 		thickness = 8;
 		rotateSpeed = 1;
+		speed = tileSize / 20;
 		break;
+	case RED:
+		sliceNum = 6;
+		thickness = 8;
+		rotateSpeed = 1;
+		speed = tileSize / 20;
+		break;
+
 	default:
 		sliceNum = 4;
 		thickness = 8;
 		rotateSpeed = 1;
+		speed = tileSize / 20;
 		break;
 	}
 
@@ -85,7 +103,7 @@ void Enemy::draw() {
 
 	//敵の描画
 	for (int i = 0; i < sliceNum; i++) {
-		float3 enemyCol = palette(x + radius * cos(2 * PI / sliceNum * (i + 1 / 2)), y + radius * sin(2 * PI / sliceNum * (i + 1 / 2)));
+		float3 enemyCol = palette(x + radius * cos(2 * PI / sliceNum * (i + 1 / 2)), y + radius * sin(2 * PI / sliceNum * (i + 1 / 2)), colorA, colorB, colorC, colorD);
 		ofSetColor(ofColor(enemyCol.x, enemyCol.y, enemyCol.z, 255));
 
 		for (int t = 0; t < thickness; t++) {
@@ -116,8 +134,28 @@ void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&object
 			//プレイヤー追跡の2マス先を追跡
 			targetPos.x = playerPos.x + static_cast<float>(mPlayer->getcurrentDirect_x()) * 2;
 			targetPos.y = playerPos.y + static_cast<float>(mPlayer->getcurrentDirect_y()) * 2;
-
 			break;
+		case RED:
+			if (std::hypotf(firstPosIndex_x - playerPos.x, firstPosIndex_y - playerPos.y) <= 5) {
+				targetPos = playerPos;
+				speed = tileSize / 10;
+				rotateSpeed = 3;
+				colorA = { 0.5, 0.5, 0.5 };
+				colorB = { 0.49, -0.5, -0.5 };
+				colorC = {3, -1.5, -1.5};
+				colorD = {0, 0, 0};
+			}
+			else {
+				targetPos = {static_cast<float>(firstPosIndex_x),static_cast<float>(firstPosIndex_y) };
+				speed = tileSize / 20;
+				rotateSpeed = 1;
+				colorA = { 0.731, 3, 0.53 };
+				colorB = { 0.247, 0.752, 0.453 };
+				colorC = { 0.785, 0.265, 0.241 };
+				colorD = { 0.138, 1.918, 0.837 };
+			}
+			break;
+
 		default:
 			break;
 		}

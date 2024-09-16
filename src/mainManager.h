@@ -7,11 +7,13 @@ class MainManager
 public:
 	MainManager();
 
+	void init();
 	void update();
 	void draw();
+	void exit();
+
 	void setKey(int key);
 	int getKey();
-
 
 	char mBlockMap[mapHeight][mapWidth];
 	char mObjectMap[mapHeight][mapWidth];

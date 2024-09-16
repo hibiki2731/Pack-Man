@@ -31,6 +31,8 @@ private:
 	float y;
 	int posIndex_x;
 	int posIndex_y;
+	int firstPosIndex_x;
+	int firstPosIndex_y;
 	//Œü‚«
 	int direct_x;
 	int direct_y;
@@ -46,6 +48,10 @@ private:
 	float radius;
 	int sliceNum;
 	int thickness;
+	float3 colorA;
+	float3 colorB;
+	float3 colorC;
+	float3 colorD;
 
 	//“G¯•Ê•Ï”
 	EnemyType mType;

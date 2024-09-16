@@ -13,8 +13,9 @@ enum GameState
 	POSE = 0,
 	PLAY = 1,
 	GAMEOVER = 2,
-	GAMECLEAR = 3
-	
+	GAMECLEAR = 3,
+	TITLE = 4
+
 };
 
 //タグ
@@ -28,7 +29,8 @@ enum Tag {
 
 enum EnemyType {
 	SQUARE = 1,
-	TRIANGELE = 2
+	TRIANGELE = 2,
+	RED = 3
 };
 
 //二次元ベクトル
