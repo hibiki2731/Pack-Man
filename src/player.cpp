@@ -1,27 +1,27 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Player::Player(int posIndex[2])
 	: speed(tileSize/16)
 {
-	//ƒCƒ“ƒfƒbƒNƒXÀ•W
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹åº§æ¨™
 	mPosIndex[0] = posIndex[0];
 	mPosIndex[1] = posIndex[1];
 	mPrePosIndex[0] = mPosIndex[0];
 	mPrePosIndex[1] = mPosIndex[1];
 
-	//À•W
+	//åº§æ¨™
 	x = (float)(mPosIndex[0] * tileSize + tileSize / 2);
 	y = (float)(mPosIndex[1] * tileSize + tileSize / 2);
 
-	//–Ú•WÀ•W
+	//ç›®æ¨™åº§æ¨™
 	targetPos_x = x;
 	targetPos_y = y;
 
-	currentDirect[0] = IDLE; currentDirect[1] = IDLE;	//Œ»İ‚ÌŒü‚«
-	nextDirect[0] = IDLE; nextDirect[1] = IDLE;	//Ÿ‚ÌŒü‚«
+	currentDirect[0] = IDLE; currentDirect[1] = IDLE;	//ç¾åœ¨ã®å‘ã
+	nextDirect[0] = IDLE; nextDirect[1] = IDLE;	//æ¬¡ã®å‘ã
 
-	radius = tileSize / 2 - 1;	//ƒvƒŒƒCƒ„[‚Ì”¼Œa
+	radius = tileSize / 2 - 1;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åŠå¾„
 	hp = 3;
 	score = 0;
 	invincibleLength = 100;
@@ -31,27 +31,35 @@ Player::Player(int posIndex[2])
 	thickness = 5;
 	tag = PLAYER;
 
+	//SEã®ãƒ­ãƒ¼ãƒ‰
+	damageSE.loadSound("8bitdamage.mp3");
+	damageSE.setMultiPlay(true);
+	damageSE.setVolume(0.025);
+	flagSE.loadSound("8bitget.mp3");
+	flagSE.setMultiPlay(true);
+	flagSE.setVolume(0.01);
+
 }
 Player::Player(int posIndex) : speed(2) {
 
-	//ƒCƒ“ƒfƒbƒNƒXÀ•W
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹åº§æ¨™
 	mPosIndex[0] = posIndex%mapWidth;
 	mPosIndex[1] = posIndex/mapWidth;
 	mPrePosIndex[0] = mPosIndex[0];
 	mPrePosIndex[1] = mPosIndex[1];
 
-	//À•W
+	//åº§æ¨™
 	x = (float)(mPosIndex[0] * tileSize + tileSize / 2);
 	y = (float)(mPosIndex[1] * tileSize + tileSize / 2);
 
-	//–Ú•WÀ•W
+	//ç›®æ¨™åº§æ¨™
 	targetPos_x = x;
 	targetPos_y = y;
 
-	currentDirect[0] = IDLE; currentDirect[1] = IDLE;	//Œ»İ‚ÌŒü‚«
-	nextDirect[0] = IDLE; nextDirect[1] = IDLE;	//Ÿ‚ÌŒü‚«
+	currentDirect[0] = IDLE; currentDirect[1] = IDLE;	//ç¾åœ¨ã®å‘ã
+	nextDirect[0] = IDLE; nextDirect[1] = IDLE;	//æ¬¡ã®å‘ã
 
-	radius = tileSize / 2 - 1;	//ƒvƒŒƒCƒ„[‚Ì”¼Œa
+	radius = tileSize / 2 - 1;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åŠå¾„
 
 	sliceNum = 15;
 	thickness = 5;
@@ -59,21 +67,21 @@ Player::Player(int posIndex) : speed(2) {
 }
 
 void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]) {
-	//XV‘O‚ÌƒCƒ“ƒfƒbƒNƒXÀ•W
+	//æ›´æ–°å‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹åº§æ¨™
 	mPrePosIndex[0] = mPosIndex[0];
 	mPrePosIndex[1] = mPosIndex[1];
 	
 	try {
-		//targetPos‚ÌXV
+		//targetPosã®æ›´æ–°
 		if (targetPos_x == x && targetPos_y == y) {
-			//Œü‚«‚Ì•ÏX
-			//•Ç‚ª‚È‚©‚Á‚½‚çnextDirect‚ğcurrentDirect‚É‘ã“ü
+			//å‘ãã®å¤‰æ›´
+			//å£ãŒãªã‹ã£ãŸã‚‰nextDirectã‚’currentDirectã«ä»£å…¥
 			if (blockMap[mPosIndex[1]][mPosIndex[0] + nextDirect[0]] <= 1 &&
 				blockMap[mPosIndex[1] + nextDirect[1]][mPosIndex[0]] <= 1) {
 				currentDirect[0] = nextDirect[0];
 				currentDirect[1] = nextDirect[1];
 			}
-			//•Ç‚ª‚È‚©‚Á‚½‚çtargetPos‚ğis•ûŒü‚ÖXV
+			//å£ãŒãªã‹ã£ãŸã‚‰targetPosã‚’é€²è¡Œæ–¹å‘ã¸æ›´æ–°
 			if (blockMap[mPosIndex[1]][mPosIndex[0] + currentDirect[0]] <= 1 &&
 				blockMap[mPosIndex[1] + currentDirect[1]][mPosIndex[0]] <= 1) {
 				targetPos_x = x + currentDirect[0] * tileSize;
@@ -86,11 +94,11 @@ void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHe
 		currentDirect[1] = IDLE;
 	}
 
-	//À•W‚ÌXV
+	//åº§æ¨™ã®æ›´æ–°
 	x += static_cast<float>(currentDirect[0]*speed);
 	y += static_cast<float>(currentDirect[1]*speed);
 
-	//targetPos‚ğ‰ß‚¬‚½‚ç”÷’²®
+	//targetPosã‚’éããŸã‚‰å¾®èª¿æ•´
 	if ((targetPos_x - x)* currentDirect[0] < 0) {
 		x += targetPos_x - x;
 	}
@@ -98,21 +106,21 @@ void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHe
 		y += targetPos_y - y;
 	}
 
-	//ƒCƒ“ƒfƒbƒNƒXÀ•W‚ÌXV
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹åº§æ¨™ã®æ›´æ–°
 	mPosIndex[0] = static_cast<int>(x / tileSize);
 	mPosIndex[1] = static_cast<int>(y / tileSize);
 
-	//ƒ}ƒbƒv‚ÌXV
+	//ãƒãƒƒãƒ—ã®æ›´æ–°
 	updateMap(objectMap);
 
-	//–³“GŠÔ‚ÌƒJƒEƒ“ƒg
+	//ç„¡æ•µæ™‚é–“ã®ã‚«ã‚¦ãƒ³ãƒˆ
 	if (timeCounter != 0) {
 		timeCounter--;
 	}
 }
 
 void Player::draw() {
-	//ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æç”»
 	for (int i = 0; i < sliceNum; i++) {
 		float3 playerCol = palette(x + radius * cos(2 * PI / sliceNum * (i + 1 / 2)), y + radius * sin(2 * PI / sliceNum * (i + 1 / 2)));
 		if (timeCounter == 0)
@@ -131,7 +139,7 @@ void Player::draw() {
 
 void Player::input(int key) {
 
-	//ƒL[“ü—Í
+	//ã‚­ãƒ¼å…¥åŠ›
 	switch (key) {
 	case OF_KEY_LEFT:
 		nextDirect[0] = LEFT;
@@ -190,15 +198,16 @@ int Player::getScore() {
 }
 
 void Player::collisionAct(GameObject* collider) {
-	//“G‚ÆÚG‚µ‚½ê‡
+	//æ•µã¨æ¥è§¦ã—ãŸå ´åˆ
 	if (collider->tag == ENEMY && timeCounter == 0) {
 		hp--;
 		timeCounter = invincibleLength;
+		damageSE.play();
 	}
-	//ƒtƒ‰ƒO‚ÆÚG‚µ‚½ê‡
+	//ãƒ•ãƒ©ã‚°ã¨æ¥è§¦ã—ãŸå ´åˆ
 	if (collider->tag == FLAG) {
 		score++;
-
+		flagSE.play();
 		collider->isSurvive = false;
 	}
 }
@@ -218,7 +227,7 @@ void Player::mapView(char(&map)[mapHeight][mapWidth]){
 
 void Player::updateMap(char(&map)[mapHeight][mapWidth]) {
 
-	map[mPrePosIndex[1]][mPrePosIndex[0]] = 0;	//ˆÚ“®‘O‚ÌÀ•W‚É‚Í0
-	map[mPosIndex[1]][mPosIndex[0]] = 1;		//ˆÚ“®Œã‚ÌÀ•W‚É‚Í1
+	map[mPrePosIndex[1]][mPrePosIndex[0]] = 0;	//ç§»å‹•å‰ã®åº§æ¨™ã«ã¯0
+	map[mPosIndex[1]][mPosIndex[0]] = 1;		//ç§»å‹•å¾Œã®åº§æ¨™ã«ã¯1
 
 }

@@ -25,6 +25,9 @@ public:
 	//プレイヤー情報を取得
 	void setPlayerInf(Player* player);
 
+	//SE関連
+	void stopSE();
+
 
 private:
 	//座標
@@ -62,5 +65,9 @@ private:
 
 	void changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&objectMap)[mapHeight][mapWidth]);
 	ofVec2f getPlayerPos(char(&objectMap)[mapHeight][mapWidth]);
+
+	//SE
+	ofSoundPlayer rageSE;
+	bool isPlaySE;
 };
 

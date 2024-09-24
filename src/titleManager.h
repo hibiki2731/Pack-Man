@@ -8,8 +8,12 @@ public:
 	void update();
 	void draw();
 	void input(int key);
+
+	void stopBGM();
+	bool isTitle;
+
 private:
 	std::shared_ptr<MainManager> mMainManager;
 
-
+	ofSoundPlayer titleBGM;
 };

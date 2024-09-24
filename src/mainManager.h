@@ -30,5 +30,9 @@ private:
 	int flagNumber;
 	ofTrueTypeFont statusBar;
 	int fontSize;
+
+	ofSoundPlayer gameBGM;
+	ofSoundPlayer clearSE;
+	ofSoundPlayer gameOverSE;
 };
 

@@ -69,5 +69,8 @@ private:
 	int sliceNum;
 	int thickness;
 
+	//SE
+	ofSoundPlayer damageSE;
+	ofSoundPlayer flagSE;
 };
 

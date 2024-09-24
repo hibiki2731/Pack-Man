@@ -3,15 +3,23 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+
+
 	mainManager = std::make_shared<MainManager>();
 	titleManager = std::make_unique<TitleManager>(mainManager);
 	mainManager->gameState = TITLE;
+
+
 }
 //--------------------------------------------------------------
 void ofApp::update(){
 	if (mainManager->gameState == PLAY || mainManager->gameState == POSE ||
 		mainManager->gameState == GAMECLEAR || mainManager->gameState == GAMEOVER) {
 		mainManager->update();
+
+		//ƒ^ƒCƒgƒ‹BGM‚Ì’âŽ~
+		if (titleManager->isTitle) titleManager->stopBGM();
+
 	}
 
 	if (mainManager->gameState == TITLE) {
