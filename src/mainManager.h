@@ -18,8 +18,10 @@ public:
 	GameState gameState;
 	Player* player;
 
+	void setStageNum(int stageNum);
+
 private:
-	void setMap(char blockMap[mapHeight][mapWidth], char objectMap[mapHeight][mapWidth]);
+	void setMap();
 	void loadMap();
 	bool collision(GameObject* g1, GameObject* g2);
 	void gameOver();
@@ -27,12 +29,16 @@ private:
 	void showStatus();
 
 	std::vector<GameObject*> mGameObjects;
-	int flagNumber;
-	ofTrueTypeFont statusBar;
-	int fontSize;
+	int flagNumber;	//ステージごとのフラッグの最大数
+	ofTrueTypeFont statusBar;	//ステータスバー
+	int fontSize;	//ステータスバーのフォントサイズ
 
+	//サウンド関連
 	ofSoundPlayer gameBGM;
 	ofSoundPlayer clearSE;
 	ofSoundPlayer gameOverSE;
+
+	//ステージ番号
+	int mStageNum;
 };
 

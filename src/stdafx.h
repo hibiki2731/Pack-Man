@@ -4,6 +4,7 @@
 #include <math.h>
 #include <vector>
 #include <memory>
+#include <fstream>
 #include "difinitions.h"
 #include "ofMain.h"
 #include "gameObject.h"
@@ -13,4 +14,5 @@
 #include "enemy.h"
 #include "mainManager.h"
 #include "titleManager.h"
+#include "selectManager.h"
 #include "ofApp.h"

@@ -19,6 +19,7 @@ MainManager::MainManager() {
 		}
 	}
 	player = nullptr;
+	mStageNum = 2;
 
 	//BGMの設定
 	gameBGM.loadSound("MusMus-CT-01.mp3");
@@ -37,49 +38,15 @@ MainManager::MainManager() {
 
 }
 
+void MainManager::setStageNum(int stageNum) {
+	mStageNum = stageNum;
+}
+
 void MainManager::init() {
-	char blockMap[mapHeight][mapWidth] = {
-	{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
-	{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
-	{2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2},
-	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-	{2,1,2,1,2,1,2,1,1,1,2,2,1,1,1,2},
-	{2,1,2,1,2,1,2,1,2,1,2,2,1,2,1,2},
-	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-	{2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2},
-	{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
-	{2,1,2,2,2,2,2,1,2,2,2,1,2,2,1,2},
-	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-	{2,1,1,1,2,1,1,1,2,1,2,2,1,2,1,2},
-	{2,1,2,1,1,1,2,1,2,1,1,1,1,2,1,2},
-	{2,1,2,2,2,2,2,1,2,2,1,2,2,2,1,2},
-	{2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
-	{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}
-	};
-
-	char objectMap[mapHeight][mapWidth] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,1,0,0,0,2,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,4,0,0,0,0,0,0,0,0,0,0,3,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-
-	};
 
 	gameState = PLAY;	//gameStateの設定
 
-	setMap(blockMap, objectMap);	//マップ情報を設定
+	setMap();	//マップ情報を設定
 
 	flagNumber = 0;
 	loadMap();	//マップの読み込み
@@ -246,14 +213,33 @@ void MainManager::input(int key) {
 	}
 }
 
-void MainManager::setMap(char blockMap[mapHeight][mapWidth], char objectMap[mapHeight][mapWidth]){
+void MainManager::setMap(){
+
+	//ステージファイルの読み込み
+	std::ifstream ifs("src/stageFile/stage" + to_string(mStageNum) +".txt");
+	//読み込みに失敗した場合
+	if (!ifs) {
+		cerr << "Error : file not opned." << endl;
+		throw;
+	}
+
 	int y, x;
 	for (y = 0; y < mapHeight; y++) {
 		for (x = 0; x < mapWidth; x++) {
-			mBlockMap[y][x] = blockMap[y][x];
-			mObjectMap[y][x] = objectMap[y][x];
+			char num;
+			ifs >> num;
+			mBlockMap[y][x] = static_cast<int>(num - '0');
 		}
 	}
+	for (y = 0; y < mapHeight; y++) {
+		for (x = 0; x < mapWidth; x++) {
+			char num;
+			ifs >> num;
+			mObjectMap[y][x] = static_cast<int>(num - '0');
+		}
+	}
+	ifs.close();
+
 }
 
 void MainManager::loadMap() {
