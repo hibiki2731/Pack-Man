@@ -27,6 +27,8 @@ Enemy::Enemy(EnemyType type, int posIndex) {
 	colorB = { 0.247, 0.752, 0.453 };
 	colorC = { 0.785, 0.265, 0.241 };
 	colorD = { 0.138, 1.918, 0.837 };
+	
+	isPlaySE = false;
 
 	//敵のタイプ別パラメータ
 	switch (type)
@@ -48,6 +50,10 @@ Enemy::Enemy(EnemyType type, int posIndex) {
 		thickness = 8;
 		rotateSpeed = 1;
 		speed = tileSize / 20;
+		rageSE.loadSound("8bitrage.mp3");
+		rageSE.setLoop(true);
+		rageSE.setMultiPlay(true);
+		rageSE.setVolume(0.025);
 		break;
 
 	default:
@@ -96,6 +102,11 @@ void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHei
 	//インデックス座標の更新
 	posIndex_x = static_cast<int>(x / tileSize);
 	posIndex_y = static_cast<int>(y / tileSize);
+
+	//ゲームオーバー時の処理
+	if (mPlayer->getHp() == 0) {
+		rageSE.stop();
+	}
 
 }
 
@@ -149,6 +160,10 @@ void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&object
 				colorB = { 0.49, -0.5, -0.5 };
 				colorC = {3, -1.5, -1.5};
 				colorD = {0, 0, 0};
+				if (!isPlaySE) {
+					rageSE.play();
+					isPlaySE = true;
+				}
 			}
 			else {
 				targetPos = {static_cast<float>(firstPosIndex_x),static_cast<float>(firstPosIndex_y) };
@@ -158,6 +173,10 @@ void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&object
 				colorB = { 0.247, 0.752, 0.453 };
 				colorC = { 0.785, 0.265, 0.241 };
 				colorD = { 0.138, 1.918, 0.837 };
+				if (isPlaySE) {
+					rageSE.stop();
+					isPlaySE = false;
+				}
 			}
 			break;
 
@@ -232,4 +251,8 @@ ofVec2f Enemy::getPlayerPos(char(&objectMap)[mapHeight][mapWidth]) {
 
 void Enemy::setPlayerInf(Player *player) {
 	mPlayer = player;
+}
+
+void Enemy::stopSE() {
+	rageSE.stop();
 }

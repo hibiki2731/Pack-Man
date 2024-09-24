@@ -2,9 +2,24 @@
 
 TitleManager::TitleManager(std::shared_ptr<MainManager> mainManager){
 	mMainManager = mainManager;
+	isTitle = false;
+
+	titleBGM.loadSound("MusMus-PKPK-001.mp3");
+	titleBGM.setLoop(true);
+	titleBGM.setMultiPlay(true);
+	titleBGM.setVolume(0.05);
 }
 
 void TitleManager::update() {
+	if (mMainManager->gameState == TITLE && !isTitle) {
+		isTitle = true;
+		titleBGM.play();
+	}
+
+	if (mMainManager->gameState != TITLE && isTitle) {
+		isTitle = false;
+		titleBGM.stop();
+	}
 
 }
 
@@ -38,4 +53,9 @@ void TitleManager::input(int key) {
 		mMainManager->gameState = PLAY;
 		mMainManager->init();
 	}
+}
+
+void TitleManager::stopBGM() {
+	isTitle = false;
+	titleBGM.stop();
 }

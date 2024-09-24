@@ -1,6 +1,40 @@
 #include "stdafx.h"
 
 MainManager::MainManager() {
+	// ステータスバーの設定。
+	fontSize = 30;	//フォントサイズ
+	ofTrueTypeFont::setGlobalDpi(72);
+
+	statusBar.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
+	statusBar.setLineHeight(24);       // 行間を指定する
+	statusBar.setLetterSpacing(1.0);   // 文字間を指定する
+
+	//初期化
+	flagNumber = 0;
+	gameState = TITLE;
+	for (int y = 0; y < mapHeight; y++) {
+		for (int x = 0; x < mapWidth; x++) {
+			mBlockMap[y][x] = 0;
+			mObjectMap[y][x] = 0;
+		}
+	}
+	player = nullptr;
+
+	//BGMの設定
+	gameBGM.loadSound("MusMus-CT-01.mp3");
+	gameBGM.setLoop(true);
+	gameBGM.setMultiPlay(true);
+	gameBGM.setVolume(0.08);
+	//SEのロード
+	//ゲームクリア
+	clearSE.loadSound("Igavethemeverything.ogg");
+	clearSE.setMultiPlay(true);
+	clearSE.setVolume(0.08);
+	//ゲームオーバー
+	gameOverSE.loadSound("Ah.ogg");
+	gameOverSE.setMultiPlay(true);
+	gameOverSE.setVolume(0.08);
+
 }
 
 void MainManager::init() {
@@ -49,16 +83,8 @@ void MainManager::init() {
 
 	flagNumber = 0;
 	loadMap();	//マップの読み込み
-	//std::cout << flagNumber;
 
-
-	// ステータスバーの設定。
-	fontSize = 30;	//フォントサイズ
-	ofTrueTypeFont::setGlobalDpi(72);
-
-	statusBar.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
-	statusBar.setLineHeight(24);       // 行間を指定する
-	statusBar.setLetterSpacing(1.0);   // 文字間を指定する
+	gameBGM.play();
 }
 
 void MainManager::update() {
@@ -292,6 +318,7 @@ void MainManager::exit() {
 	}
 	mGameObjects.erase(mGameObjects.begin(), mGameObjects.end());
 
+	gameBGM.stop();
 }
 
 bool MainManager::collision(GameObject* g1, GameObject* g2) {
@@ -304,11 +331,27 @@ bool MainManager::collision(GameObject* g1, GameObject* g2) {
 }
 
 void MainManager::gameOver() {
+	gameBGM.stop();
 
+	//enemyのSEを停止
+	for (GameObject* gameObject : mGameObjects) {
+		if (gameObject->tag == ENEMY) {
+			dynamic_cast<Enemy*>(gameObject)->stopSE();
+		}
+	}
+	gameOverSE.play();
 	gameState = GAMEOVER;
 }
 
 void MainManager::gameClear() {
+	gameBGM.stop();
+	//enemyのSEを停止
+	for (GameObject* gameObject : mGameObjects) {
+		if (gameObject->tag == ENEMY) {
+			dynamic_cast<Enemy*>(gameObject)->stopSE();
+		}
+	}
+	clearSE.play();
 	gameState = GAMECLEAR;
 }
 
