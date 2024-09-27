@@ -3,14 +3,19 @@
 
 class SelectManager {
 public:
-	SelectManager();
+	SelectManager(std::shared_ptr<MainManager> mainManager);
 
 	void update();
 	void draw();
-	void input();
+	void input(int key);
 
 private:
 
 	std::shared_ptr<MainManager> mMainManager;
+	
+	ofTrueTypeFont canvas_title;
+	int fontSize_title;
+
+	int selectNum;
 
 };

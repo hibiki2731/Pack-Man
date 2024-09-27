@@ -37,6 +37,9 @@
     <ClCompile Include="src\titleManager.cpp">
       <Filter>src\ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\selectManager.cpp">
+      <Filter>src\ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -81,6 +84,9 @@
       <Filter>src\ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\titleManager.h">
+      <Filter>src\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\selectManager.h">
       <Filter>src\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>

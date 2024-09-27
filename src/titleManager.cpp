@@ -8,6 +8,12 @@ TitleManager::TitleManager(std::shared_ptr<MainManager> mainManager){
 	titleBGM.setLoop(true);
 	titleBGM.setMultiPlay(true);
 	titleBGM.setVolume(0.05);
+
+	//フォントのロード
+	fontSize = 80;
+	canvas.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
+	canvas.setLineHeight(72);       // 行間を指定する
+	canvas.setLetterSpacing(1.0);   // 文字間を指定する
 }
 
 void TitleManager::update() {
@@ -17,7 +23,6 @@ void TitleManager::update() {
 	}
 
 	if (mMainManager->gameState != TITLE && isTitle) {
-		isTitle = false;
 		titleBGM.stop();
 	}
 
@@ -29,17 +34,10 @@ void TitleManager::draw() {
 	ofDrawRectangle(0, 0, windowWidth, windowHeight);
 
 
-	ofTrueTypeFont canvas;
 	string title = "PACK MANNNN";
 	string text = "PRESS ANY KEY";
 	string text_Start = "TO START";
-	int fontSize = 80;
 	// Fonts
-	ofTrueTypeFont::setGlobalDpi(72);
-
-	canvas.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
-	canvas.setLineHeight(72);       // 行間を指定する
-	canvas.setLetterSpacing(1.0);   // 文字間を指定する
 
 	ofSetColor(255, 255, 0); // 色を指定
 	canvas.drawString(title, windowWidth / 2 - (title.length() - 1) / 2 * fontSize + 10, windowHeight / 4); // 文字とポジションを指定して描画
@@ -50,12 +48,12 @@ void TitleManager::draw() {
 
 void TitleManager::input(int key) {
 	if (key) {
-		mMainManager->gameState = PLAY;
-		mMainManager->init();
+		mMainManager->gameState = STAGESELECT;
+		stopBGM();
+		//mMainManager->init();
 	}
 }
 
 void TitleManager::stopBGM() {
-	isTitle = false;
 	titleBGM.stop();
 }
