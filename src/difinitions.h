@@ -14,7 +14,8 @@ enum GameState
 	PLAY = 1,
 	GAMEOVER = 2,
 	GAMECLEAR = 3,
-	TITLE = 4
+	TITLE = 4,
+	STAGESELECT = 5
 
 };
 

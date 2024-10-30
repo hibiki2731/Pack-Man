@@ -7,6 +7,7 @@ void ofApp::setup() {
 
 	mainManager = std::make_shared<MainManager>();
 	titleManager = std::make_unique<TitleManager>(mainManager);
+	selectManager = std::make_unique<SelectManager>(mainManager);
 	mainManager->gameState = TITLE;
 
 
@@ -17,15 +18,17 @@ void ofApp::update(){
 		mainManager->gameState == GAMECLEAR || mainManager->gameState == GAMEOVER) {
 		mainManager->update();
 
-		//タイトルBGMの停止
-		if (titleManager->isTitle) titleManager->stopBGM();
-
 	}
-
+	
+	//タイトル
 	if (mainManager->gameState == TITLE) {
 		titleManager->update();
 	}
 
+	//ステージセレクト
+	if (mainManager->gameState == STAGESELECT) {
+		selectManager->update();
+	}
 }
 
 //--------------------------------------------------------------
@@ -46,6 +49,10 @@ void ofApp::draw(){
 		titleManager->draw();
 	}
 
+	//ステージセレクト
+	if (mainManager->gameState == STAGESELECT) {
+		selectManager->draw();
+	}
 }
 
 //--------------------------------------------------------------
@@ -55,6 +62,10 @@ void ofApp::keyPressed(int key){
 		//タイトル
 		if (mainManager->gameState == TITLE) {
 			titleManager->input(key);
+		}
+		//セレクト画面
+		if (mainManager->gameState == STAGESELECT) {
+			selectManager->input(key);
 		}
 		//ゲームプレイ中
 		if (mainManager->gameState == PLAY || mainManager->gameState == POSE ||

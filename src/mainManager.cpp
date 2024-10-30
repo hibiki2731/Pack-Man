@@ -1,13 +1,29 @@
 #include "stdafx.h"
 
 MainManager::MainManager() {
-	// ステータスバーの設定。
-	fontSize = 30;	//フォントサイズ
 	ofTrueTypeFont::setGlobalDpi(72);
 
-	statusBar.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
-	statusBar.setLineHeight(24);       // 行間を指定する
+	// ステータスバーの設定。
+	statusFontSize = 30;	//フォントサイズ
+	statusBar.load("SawarabiMincho-Regular.ttf", statusFontSize); // フォントのデータを指定する
+	statusBar.setLineHeight(30);       // 行間を指定する
 	statusBar.setLetterSpacing(1.0);   // 文字間を指定する
+
+	//UIフォント
+	fontSize_pose = 80;
+	canvas_pose.load("SawarabiMincho-Regular.ttf", fontSize_pose); // フォントのデータを指定する
+	canvas_pose.setLineHeight(24);       // 行間を指定する
+	canvas_pose.setLetterSpacing(1.0);   // 文字間を指定する
+
+	fontSize_gameover = 80;
+	canvas_gameover.load("SawarabiMincho-Regular.ttf", fontSize_gameover); // フォントのデータを指定する
+	canvas_gameover.setLineHeight(30);       // 行間を指定する
+	canvas_gameover.setLetterSpacing(1.0);   // 文字間を指定する
+
+	fontSize_gameclear = 70;
+	canvas_gameclear.load("SawarabiMincho-Regular.ttf", fontSize_gameclear); // フォントのデータを指定する
+	canvas_gameclear.setLineHeight(24);       // 行間を指定する
+	canvas_gameclear.setLetterSpacing(1.0);   // 文字間を指定する
 
 	//初期化
 	flagNumber = 0;
@@ -30,11 +46,11 @@ MainManager::MainManager() {
 	//ゲームクリア
 	clearSE.loadSound("Igavethemeverything.ogg");
 	clearSE.setMultiPlay(true);
-	clearSE.setVolume(0.08);
+	clearSE.setVolume(0.06);
 	//ゲームオーバー
 	gameOverSE.loadSound("Ah.ogg");
 	gameOverSE.setMultiPlay(true);
-	gameOverSE.setVolume(0.08);
+	gameOverSE.setVolume(0.06);
 
 }
 
@@ -111,62 +127,50 @@ void MainManager::draw() {
 
 	//ポーズ中の処理
 	if (gameState == POSE) {
-		ofTrueTypeFont canvas;
-		string text_POSE = "POSE\n";
-		string text_R = "R : reset\n";
-		string text_Q = "Q : to title\n";
-		int fontSize = 80;
-		// Fonts
+		ofSetColor(0, 0, 0, 150);
+		ofDrawRectangle(0,0,windowWidth,windowHeight);
+		
+		string text_POSE = "POSE";
+		string text_R = "R : reset";
+		string text_Q = "Q : to title";
+
 		ofTrueTypeFont::setGlobalDpi(72);
 
-		canvas.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
-		canvas.setLineHeight(30);       // 行間を指定する
-		canvas.setLetterSpacing(1.0);   // 文字間を指定する
-
 		ofSetColor(255, 255, 255); // 色を指定
-		canvas.drawString(text_POSE, windowWidth / 2 - text_POSE.length() / 2 * fontSize, windowHeight / 2); // 文字とポジションを指定して描画
-		canvas.drawString(text_R, windowWidth / 2 - text_POSE.length() / 2 * fontSize - fontSize, windowHeight / 2 + fontSize); // 文字とポジションを指定して描画
-		canvas.drawString(text_Q, windowWidth / 2 - text_POSE.length() / 2 * fontSize - fontSize, windowHeight / 2 + fontSize * 2); // 文字とポジションを指定して描画
+		canvas_pose.drawString(text_POSE, windowWidth / 2 - text_POSE.length() / 2 * fontSize_pose, windowHeight / 2); // 文字とポジションを指定して描画
+		canvas_pose.drawString(text_R, windowWidth / 2 - text_POSE.length() / 2 * fontSize_pose - fontSize_pose, windowHeight / 2 + fontSize_pose); // 文字とポジションを指定して描画
+		canvas_pose.drawString(text_Q, windowWidth / 2 - text_POSE.length() / 2 * fontSize_pose - fontSize_pose, windowHeight / 2 + fontSize_pose * 2); // 文字とポジションを指定して描画
 	}
 
 	//ゲームオーバー時の処理
 	if (gameState == GAMEOVER) {
-		ofTrueTypeFont canvas;
+		ofSetColor(0, 0, 0, 150);
+		ofDrawRectangle(0, 0, windowWidth, windowHeight);
 		string text = "GAMEOVER\n";
 		string text_Q = "Q : to title\n";
-		int fontSize = 80;
 
-		// Fonts
 		ofTrueTypeFont::setGlobalDpi(72);
 
-		canvas.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
-		canvas.setLineHeight(24);       // 行間を指定する
-		canvas.setLetterSpacing(1.0);   // 文字間を指定する
 
 		ofSetColor(255, 50, 50); // 色を指定
-		canvas.drawString(text, windowWidth / 2 - text.length() / 2 * fontSize, windowHeight / 2); // 文字とポジションを指定して描画
-		canvas.drawString(text_Q, windowWidth / 2 - text.length() / 2 * fontSize + fontSize, windowHeight / 2 + fontSize); // 文字とポジションを指定して描画
+		canvas_gameover.drawString(text, windowWidth / 2 - text.length() / 2 * fontSize_gameover, windowHeight / 2); // 文字とポジションを指定して描画
+		canvas_gameover.drawString(text_Q, windowWidth / 2 - text.length() / 2 * fontSize_gameover + fontSize_gameover, windowHeight / 2 + fontSize_gameover); // 文字とポジションを指定して描画
 
 	}
 
 	//ゲームクリア時の処理
 	if (gameState == GAMECLEAR) {
-		ofTrueTypeFont canvas;
+		ofSetColor(0, 0, 0, 150);
+		ofDrawRectangle(0, 0, windowWidth, windowHeight);
 		string text = "CONGRATULATION!!\n";
 		string text_Q = "Q : to title\n";
 
-		int fontSize = 60;
-
-		// Fonts
 		ofTrueTypeFont::setGlobalDpi(72);
 
-		canvas.load("SawarabiMincho-Regular.ttf", fontSize); // フォントのデータを指定する
-		canvas.setLineHeight(24);       // 行間を指定する
-		canvas.setLetterSpacing(1.0);   // 文字間を指定する
 
 		ofSetColor(255, 255, 255); // 色を指定
-		canvas.drawString(text, windowWidth / 2 - text.length() / 2 * fontSize, windowHeight / 2); // 文字とポジションを指定して描画
-		canvas.drawString(text_Q, windowWidth / 2 - text.length() / 2 * fontSize + fontSize * 3,  windowHeight / 2 + fontSize); // 文字とポジションを指定して描画
+		canvas_gameclear.drawString(text, windowWidth / 2 - text.length() / 2 * fontSize_gameclear + fontSize_gameclear * 2, windowHeight / 2); // 文字とポジションを指定して描画
+		canvas_gameclear.drawString(text_Q, windowWidth / 2 - text.length() / 2 * fontSize_gameclear + fontSize_gameclear * 5,  windowHeight / 2 + fontSize_gameclear); // 文字とポジションを指定して描画
 
 	}
 
@@ -304,7 +308,15 @@ void MainManager::exit() {
 	}
 	mGameObjects.erase(mGameObjects.begin(), mGameObjects.end());
 
+	//enemyのSEを停止
+	for (GameObject* gameObject : mGameObjects) {
+		if (gameObject->tag == ENEMY) {
+			dynamic_cast<Enemy*>(gameObject)->stopSE();
+		}
+	}
 	gameBGM.stop();
+	gameOverSE.stop();
+	clearSE.stop();
 }
 
 bool MainManager::collision(GameObject* g1, GameObject* g2) {
@@ -349,6 +361,6 @@ void MainManager::showStatus() {
 	//hpの表示
 	string text = "HP:"+to_string(player->getHp())+"\n"+ "SCORE:" + to_string(player->getScore());
 	ofSetColor(255, 255, 255); // 色を指定
-	statusBar.drawString(text, windowWidth - offSet_x *fontSize, fontSize); // 文字とポジションを指定して描画
+	statusBar.drawString(text, windowWidth - offSet_x *statusFontSize, statusFontSize + offSet_y); // 文字とポジションを指定して描画
 
 }

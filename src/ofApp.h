@@ -24,6 +24,7 @@ class ofApp : public ofBaseApp{
 
 		std::shared_ptr<MainManager> mainManager;
 		std::unique_ptr<TitleManager> titleManager;
+		std::unique_ptr<SelectManager> selectManager;
 
 
 		

@@ -30,8 +30,17 @@ private:
 
 	std::vector<GameObject*> mGameObjects;
 	int flagNumber;	//ステージごとのフラッグの最大数
+
+	//文字描画関連
 	ofTrueTypeFont statusBar;	//ステータスバー
-	int fontSize;	//ステータスバーのフォントサイズ
+	ofTrueTypeFont canvas_pose;
+	ofTrueTypeFont canvas_gameover;
+	ofTrueTypeFont canvas_gameclear;
+
+	int statusFontSize;	//ステータスバーのフォントサイズ;
+	int fontSize_pose;
+	int fontSize_gameover;
+	int fontSize_gameclear;
 
 	//サウンド関連
 	ofSoundPlayer gameBGM;

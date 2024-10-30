@@ -3,14 +3,30 @@
 
 class SelectManager {
 public:
-	SelectManager();
+	SelectManager(std::shared_ptr<MainManager> mainManager);
 
 	void update();
 	void draw();
-	void input();
+	void input(int key);
 
 private:
 
 	std::shared_ptr<MainManager> mMainManager;
+	
+	ofTrueTypeFont canvas_title;
+	int fontSize_title;
+
+	int selectNum;
+
+	bool isSelect;
+	int panelWidth;
+	int panelHeight;
+
+	//•`‰æ
+	void drawPanel(int x, int y);
+	ofVec3f palet();
+
+	//ƒV[ƒ“‘JˆÚ
+	void moveScene();
 
 };

@@ -10,10 +10,14 @@ public:
 	void input(int key);
 
 	void stopBGM();
-	bool isTitle;
 
 private:
 	std::shared_ptr<MainManager> mMainManager;
 
 	ofSoundPlayer titleBGM;
+
+	ofTrueTypeFont canvas;
+	int fontSize;
+
+	bool isTitle;
 };
