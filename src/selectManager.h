@@ -18,4 +18,15 @@ private:
 
 	int selectNum;
 
+	bool isSelect;
+	int panelWidth;
+	int panelHeight;
+
+	//•`‰æ
+	void drawPanel(int x, int y);
+	ofVec3f palet();
+
+	//ƒV[ƒ“‘JˆÚ
+	void moveScene();
+
 };

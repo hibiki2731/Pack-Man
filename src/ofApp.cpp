@@ -63,6 +63,10 @@ void ofApp::keyPressed(int key){
 		if (mainManager->gameState == TITLE) {
 			titleManager->input(key);
 		}
+		//セレクト画面
+		if (mainManager->gameState == STAGESELECT) {
+			selectManager->input(key);
+		}
 		//ゲームプレイ中
 		if (mainManager->gameState == PLAY || mainManager->gameState == POSE ||
 			mainManager->gameState == GAMECLEAR || mainManager->gameState == GAMEOVER) {

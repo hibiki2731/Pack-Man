@@ -18,4 +18,6 @@ private:
 
 	ofTrueTypeFont canvas;
 	int fontSize;
+
+	bool isTitle;
 };
