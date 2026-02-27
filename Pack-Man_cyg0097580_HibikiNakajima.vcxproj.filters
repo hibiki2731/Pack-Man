@@ -1,87 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="src\ofApp.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flag.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\block.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enemy.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gameObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mainManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\player.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\selectManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\selectPanel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\titleManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\ofApp.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flag.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\block.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\difinitions.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\enemy.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gameObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mainManager.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\selectManager.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\selectPanel.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stdafx.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\titleManager.h">
-      <Filter>src</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="icon.rc" />
-  </ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Flag.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\block.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\enemy.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\gameObject.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\mainManager.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\player.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\selectManager.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\selectPanel.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\stdafx.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\titleManager.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Flag.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\block.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\difinitions.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\enemy.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\gameObject.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\mainManager.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\player.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\selectManager.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\selectPanel.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\stdafx.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\titleManager.h">
+			<Filter>src</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="icon.rc" />
+	</ItemGroup>
 </Project>
