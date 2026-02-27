@@ -220,10 +220,11 @@ void MainManager::input(int key) {
 void MainManager::setMap(){
 
 	//ステージファイルの読み込み
-	std::ifstream ifs("src/stageFile/stage" + to_string(mStageNum) +".txt");
+	std::string path = ofToDataPath("stageFile/stage" + to_string(mStageNum) + ".txt");
+	std::ifstream ifs(path);
 	//読み込みに失敗した場合
 	if (!ifs) {
-		cerr << "Error : file not opned." << endl;
+		std::cerr << "Error : file not opned." << endl;
 		throw;
 	}
 

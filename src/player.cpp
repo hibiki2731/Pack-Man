@@ -89,7 +89,7 @@ void Player::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHe
 			}
 		}
 	}
-	catch(exception e){
+	catch(std::exception e){
 		currentDirect[0] = IDLE;
 		currentDirect[1] = IDLE;
 	}

@@ -82,7 +82,7 @@ void Enemy::update(char(&blockMap)[mapHeight][mapWidth], char(&objectMap)[mapHei
 			}
 		}
 	}
-	catch (exception e) {
+	catch (std::exception e) {
 		direct_x = 0;
 		direct_y = 0;
 	}
@@ -216,7 +216,7 @@ void Enemy::changeDirection(char(&currentMap)[mapHeight][mapWidth], char(&object
 
 
 	}
-	catch (exception e){
+	catch (std::exception e){
 		direct_x = 0;
 		direct_y = 0;
 	}
